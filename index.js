@@ -95,33 +95,33 @@ app.get('/api', async (req, res) => {
         }
 
         try {
-            const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
-            const page = await browser.newPage()
-            await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
-            const numberElement = await page.waitForSelector('button.css-19zjgsi');
-            await numberElement.click('button.css-19zjgsi', { clickCount: 3 });
-            await page.waitForSelector('a[data-testid="contact-phone"]');
-            const content = await page.content();
-            browser.close(); 
-
             // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
             // const page = await browser.newPage()
             // await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
-            // await page.waitForSelector('h1[data-cy="ad_title"]');
+            // const numberElement = await page.waitForSelector('button.css-19zjgsi');
+            // await numberElement.click('button.css-19zjgsi', { clickCount: 3 });
+            // await page.waitForSelector('a[data-testid="contact-phone"]');
             // const content = await page.content();
-            // browser.close();
+            // browser.close(); 
+
+            const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
+            const page = await browser.newPage()
+            await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
+            await page.waitForSelector('h1[data-cy="ad_title"]');
+            const content = await page.content();
+            browser.close();
 
             const $ = cheerio.load(content);
 
-            // $('.css-1soizd2').each((i, header) => {
-            //     const url = $(header).text();
-            //     res.json(url);
-            // }) 
+            $('.css-1soizd2').each((i, header) => {
+                const url = $(header).text();
+                res.json(url);
+            }) 
 
-            $('.css-rc5s2u').each((i, header) => {
-                const url = $(header).attr('href');
-                productList.push({ url });
-            })
+            // $('.css-rc5s2u').each((i, header) => {
+            //     const url = $(header).attr('href');
+            //     productList.push({ url });
+            // })
 
         } catch (err) {
             res.json(err);
