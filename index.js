@@ -76,53 +76,57 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     puppeteer = require("puppeteer");
 }
 
-// app.get('/', async (req, res) => {
-//     let options = {};
+app.get('/', async (req, res) => {
+    async function start() {
+        let options = {};
 
-//     if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-//         options = {
-//             args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-//             defaultViewport: chrome.defaultViewport,
-//             executablePath: await chrome.executablePath,
-//             headless: true,
-//             ignoreHTTPSErrors: true,
-//         };
-//     }
+        if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+            options = {
+                args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+                defaultViewport: chrome.defaultViewport,
+                executablePath: await chrome.executablePath,
+                headless: true,
+                ignoreHTTPSErrors: true,
+            };
+        }
 
-//     try {
-//         // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : {headless: false})
-//         // const page = await browser.newPage()
-//         // await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
-//         // const numberElement = await page.waitForSelector('button.css-19zjgsi');
-//         // await numberElement.click('button.css-19zjgsi', { clickCount: 10 });
-//         // await page.waitForSelector('a[data-testid="contact-phone"]');
-//         // const content = await page.content(); 
+        try {
+            // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : {headless: false})
+            // const page = await browser.newPage()
+            // await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
+            // const numberElement = await page.waitForSelector('button.css-19zjgsi');
+            // await numberElement.click('button.css-19zjgsi', { clickCount: 10 });
+            // await page.waitForSelector('a[data-testid="contact-phone"]');
+            // const content = await page.content(); 
 
-//         const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
-//         const page = await browser.newPage()
-//         await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
-//         await page.waitForSelector('h1[data-cy="ad_title"]');
-//         const content = await page.content();
-//         browser.close();
+            const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
+            const page = await browser.newPage()
+            await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
+            await page.waitForSelector('h1[data-cy="ad_title"]');
+            const content = await page.content();
+            browser.close();
 
-//         const $ = cheerio.load(content);
-//         // data-cy="ad_title" h1
-//         res.json('hello');
-//         // res.json(content);
+            const $ = cheerio.load(content);
+            // data-cy="ad_title" h1
+            res.json('hello');
+            // res.json(content);
 
-//         // $('.css-1soizd2').each((i, header) => {
-//         //     const url = $(header).text();
-//         //     res.json(url);
-//         // }) 
+            // $('.css-1soizd2').each((i, header) => {
+            //     const url = $(header).text();
+            //     res.json(url);
+            // }) 
 
-//     } catch (err) {
-//         res.json(err);
-//     }
-// }) 
+        } catch (err) {
+            res.json(err);
+        }
+    }
 
-app.get("/", (req,res) => {
-    res.json("hello world");
+    start();
 })
+
+// app.get("/", (req,res) => {
+//     res.json("hello world");
+// })
 
 
 app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`))
