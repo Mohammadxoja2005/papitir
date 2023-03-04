@@ -94,7 +94,7 @@ app.get('/', async (req, res) => {
         const page = await browser.newPage()
         await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
         const numberElement = await page.waitForSelector('button.css-19zjgsi');
-        await numberElement.click('button.css-19zjgsi', { clickCount: 5 });
+        await numberElement.click('button.css-19zjgsi', { clickCount: 10 });
         await page.waitForSelector('a[data-testid="contact-phone"]');
         const content = await page.content();
         browser.close();
