@@ -107,7 +107,7 @@ app.get('/', async (req, res) => {
 
         const $ = cheerio.load(content);
         // data-cy="ad_title" h1
-        res.json(content);
+        res.json('hello');
         // res.json(content);
 
         // $('.css-1soizd2').each((i, header) => {
