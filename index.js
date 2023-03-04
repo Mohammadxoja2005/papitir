@@ -112,13 +112,13 @@ app.get('/api', async (req, res) => {
 
             const $ = cheerio.load(content);
             // data-cy="ad_title" h1
-            res.json('hello');
+            // res.json(');
             // res.json(content);
 
-            // $('.css-1soizd2').each((i, header) => {
-            //     const url = $(header).text();
-            //     res.json(url);
-            // }) 
+            $('.css-1soizd2').each((i, header) => {
+                const url = $(header).text();
+                res.json(url);
+            }) 
 
         } catch (err) {
             res.json(err);
