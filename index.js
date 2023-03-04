@@ -74,9 +74,13 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     puppeteer = require("puppeteer-core");
 } else {
     puppeteer = require("puppeteer");
-}
+} 
 
-app.get('/', async (req, res) => {
+app.get("/", (req,res) => {
+    res.json("hello world")
+})
+
+app.get('/api', async (req, res) => {
     async function start() {
         let options = {};
 
