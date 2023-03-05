@@ -80,7 +80,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 //     res.json("hello world")
 // })
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     async function start() {
         let options = {};
 
@@ -112,7 +112,7 @@ app.get('/', (req, res) => {
             browser.close();
 
             const $ = cheerio.load(content); 
-            
+
             $('.css-1soizd2').each((i, header) => {
                 const url = $(header).text();
                 res.json(url);
@@ -131,10 +131,14 @@ app.get('/', (req, res) => {
     start();
 })
 
-// app.get("/", (req,res) => {
-//     res.json("hello world");
-// }) 
+app.get("/", (req,res) => {
+    res.json("hello world");
+}) 
 
 
 
-app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`))
+app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`)) 
+
+// "engines": {
+//     "node": "^14"
+//   },
