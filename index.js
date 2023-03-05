@@ -106,17 +106,17 @@ app.get('/api', (req, res) => {
 
             const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
             const page = await browser.newPage()
-            await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
+            await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { waitUntil: 'networkidle0' })
             await page.waitForSelector('h1[data-cy="ad_title"]');
             const content = await page.content();
             browser.close();
+            res.json("hello world");
+            // const $ = cheerio.load(content); 
 
-            const $ = cheerio.load(content); 
-
-            $('.css-1soizd2').each((i, header) => {
-                const url = $(header).text();
-                res.json(url);
-            }) 
+            // $('.css-1soizd2').each((i, header) => {
+            //     const url = $(header).text();
+            //     res.json(url);
+            // }) 
 
             // $('.css-rc5s2u').each((i, header) => {
             //     const url = $(header).attr('href');
