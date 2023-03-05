@@ -111,12 +111,12 @@ app.get('/', (req, res) => {
             const content = await page.content();
             browser.close();
 
-            const $ = cheerio.load(content);
-            res.json(content);
-            // $('.css-1soizd2').each((i, header) => {
-            //     const url = $(header).text();
-            //     res.json(url);
-            // }) 
+            const $ = cheerio.load(content); 
+            
+            $('.css-1soizd2').each((i, header) => {
+                const url = $(header).text();
+                res.json(url);
+            }) 
 
             // $('.css-rc5s2u').each((i, header) => {
             //     const url = $(header).attr('href');
