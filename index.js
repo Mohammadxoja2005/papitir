@@ -76,11 +76,11 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     puppeteer = require("puppeteer");
 }
 
-app.get("/", (req, res) => {
-    res.json("hello world")
-})
+// app.get("/", (req, res) => {
+//     res.json("hello world")
+// })
 
-app.get('/api', async (req, res) => {
+app.get('/', (req, res) => {
     async function start() {
         let options = {};
 
@@ -92,8 +92,8 @@ app.get('/api', async (req, res) => {
                 headless: true,
                 ignoreHTTPSErrors: true,
             };
-        }
-
+        } 
+        
         try {
             // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
             // const page = await browser.newPage()
@@ -112,11 +112,11 @@ app.get('/api', async (req, res) => {
             browser.close();
 
             const $ = cheerio.load(content);
-
-            $('.css-1soizd2').each((i, header) => {
-                const url = $(header).text();
-                res.json(url);
-            }) 
+            res.json(content);
+            // $('.css-1soizd2').each((i, header) => {
+            //     const url = $(header).text();
+            //     res.json(url);
+            // }) 
 
             // $('.css-rc5s2u').each((i, header) => {
             //     const url = $(header).attr('href');
@@ -133,7 +133,8 @@ app.get('/api', async (req, res) => {
 
 // app.get("/", (req,res) => {
 //     res.json("hello world");
-// })
+// }) 
+
 
 
 app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`))
