@@ -80,7 +80,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 //     res.json("hello world")
 // })
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     async function start() {
         let options = {};
 
@@ -94,7 +94,8 @@ app.get('/api', (req, res) => {
             };
         }
 
-        try {
+        try { 
+            
             // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
             // const page = await browser.newPage()
             // await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html", { timeout: 0 })
@@ -143,12 +144,6 @@ app.get('/api', (req, res) => {
 
     start();
 })
-
-app.get("/", (req, res) => {
-    res.json("hello world");
-})
-
-
 
 app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`))
 
