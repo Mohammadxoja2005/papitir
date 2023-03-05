@@ -4,7 +4,7 @@ const cheerio = require('cheerio')
 const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT || 9000
-
+require("dotenv").config();
 app.use(express.json())
 app.use(cors({ origin: '*' }));
 
@@ -92,8 +92,8 @@ app.get('/api', (req, res) => {
                 headless: true,
                 ignoreHTTPSErrors: true,
             };
-        } 
-        
+        }
+
         try {
             // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
             // const page = await browser.newPage()
@@ -104,19 +104,32 @@ app.get('/api', (req, res) => {
             // const content = await page.content();
             // browser.close(); 
 
-            const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
+            // const browser = await puppeteer.launch(process.env.AWS_LAMBDA_FUNCTION_VERSION ? options : { headless: false })
+            const browser = await puppeteer.launch({
+                args: [
+                    "--disable-setuid-sandbox",
+                    "--no-sandbox",
+                    "--single-process",
+                    "--no-zygote",
+                ],
+                executablePath:
+                    process.env.NODE_ENV === "production"
+                        ? process.env.PUPPETEER_EXECUTABLE_PATH
+                        : puppeteer.executablePath(),
+            });
+
             const page = await browser.newPage()
             await page.goto("https://www.olx.uz/d/obyavlenie/prodaetsya-zhentra-ID3aHnt.html");
             await page.waitForSelector('h1[data-cy="ad_title"]');
             const content = await page.content();
             browser.close();
 
-            const $ = cheerio.load(content); 
+            const $ = cheerio.load(content);
 
             $('.css-1soizd2').each((i, header) => {
                 const url = $(header).text();
                 res.json(url);
-            }) 
+            })
 
             // $('.css-rc5s2u').each((i, header) => {
             //     const url = $(header).attr('href');
@@ -131,13 +144,13 @@ app.get('/api', (req, res) => {
     start();
 })
 
-app.get("/", (req,res) => {
+app.get("/", (req, res) => {
     res.json("hello world");
-}) 
+})
 
 
 
-app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`)) 
+app.listen(PORT, console.log(`Siz shu (${PORT}) portdasiz`))
 
 // "engines": {
 //     "node": "^14"
